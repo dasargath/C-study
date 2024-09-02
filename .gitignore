@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+bin/
+obj/
+build/
+coverage/
+tmp
+temp
+.DS_Store
+TreeStudy.sln.DotSettings.user
