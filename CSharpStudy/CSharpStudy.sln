@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# 
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStudy", "EventStudy\EventStudy.csproj", "{653ED5D1-0870-40F7-AA79-3C0EC9436056}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeStudy", "TreeStudy\TreeStudy.csproj", "{258F49B7-83F2-48E4-82A5-E2A9E2CEEFBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E357FBA-FAA4-4FDD-A144-7AADA109A2C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E357FBA-FAA4-4FDD-A144-7AADA109A2C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E357FBA-FAA4-4FDD-A144-7AADA109A2C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E357FBA-FAA4-4FDD-A144-7AADA109A2C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653ED5D1-0870-40F7-AA79-3C0EC9436056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653ED5D1-0870-40F7-AA79-3C0EC9436056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653ED5D1-0870-40F7-AA79-3C0EC9436056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653ED5D1-0870-40F7-AA79-3C0EC9436056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258F49B7-83F2-48E4-82A5-E2A9E2CEEFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{258F49B7-83F2-48E4-82A5-E2A9E2CEEFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{258F49B7-83F2-48E4-82A5-E2A9E2CEEFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{258F49B7-83F2-48E4-82A5-E2A9E2CEEFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
