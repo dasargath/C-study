@@ -2,18 +2,17 @@ namespace EventStudy
 
 
 {
-    public static class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
             var downloader = new ImageDownloader();
 
-            downloader.DownloadStarted += (fileName) =>
-                Console.WriteLine($"Скачивание {Path.GetFileName(fileName)} началось...");
-            downloader.DownloadFinished += (fileName) =>
-                Console.WriteLine($"Скачивание {Path.GetFileName(fileName)} завершено.");
+            downloader.DownloadStarted += (fileName) => Console.WriteLine($"Скачивание {fileName} началось...");
+            downloader.DownloadFinished += (fileName) => Console.WriteLine($"Скачивание {fileName} завершено.");
 
-            string remoteUrl = "https://webneel.com/beautiful-clouds-photos-formation";
+            string remoteUri = "https://webneel.com/beautiful-clouds-photos-formation";
+			CancellationTokenSource cts = new CancellationTokenSource();
 
             string saveDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Downloaded images");
 
@@ -22,27 +21,28 @@ namespace EventStudy
                 Directory.CreateDirectory(saveDirectory);
             }
 
-            List<string> imageUrls = await downloader.GetImageUrlsAsync(remoteUrl);
+            IEnumerable<string> imageUrls = await downloader.GetImageUrlsAsync(remoteUri, 10, cts.Token);
 
-            var selectedImages = imageUrls.Take(10).ToList();
             var downloadTasks = new List<Task>();
             var fileNames = new List<string>();
 
-            for (int i = 0; i < selectedImages.Count; i++)
+            int index = 1;
+            foreach (var imageUrl in imageUrls)
             {
-                string imageUrl = selectedImages[i];
-                string localFleName = Path.Combine(saveDirectory, $"image_{(i + 1):D2}.jpg");
+	            string fileName = $"image_{index++}.jpg";
+                string fullFilePath = Path.Combine(saveDirectory, fileName);
+                
+                fileNames.Add(fullFilePath);
 
-                try
-                {
-                    var task = downloader.DownloadImagesAsync(imageUrl, localFleName);
-                    downloadTasks.Add(task);
-                    fileNames.Add(localFleName);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ошибка при скачивании {localFleName}: {ex.Message}");
-                }
+	            try
+	            {
+		            var downloadTask = downloader.DownloadImagesAsync(imageUrl, fullFilePath, cts.Token);
+		            downloadTasks.Add(downloadTask);
+	            }
+	            catch (Exception ex)
+	            {
+		            Console.WriteLine($"Ошибка при скачивании {fileName}: {ex.Message}");
+	            }
             }
 
 

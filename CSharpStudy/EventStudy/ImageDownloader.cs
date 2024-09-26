@@ -1,3 +1,6 @@
+using System.Net;
+using System.Text.RegularExpressions;
+
 namespace EventStudy
 
 
@@ -7,41 +10,42 @@ namespace EventStudy
         public event Action<string>? DownloadStarted;
         public event Action<string>? DownloadFinished;
 
-        public async Task DownloadImagesAsync(string remoteUrl, string fileName)
+        private static readonly Regex _imageRegex = new Regex("<img[^>]+src=\"(.*?)\"", RegexOptions.IgnoreCase);
+
+        public async Task DownloadImagesAsync(string remoteUrl, string fileName,
+            CancellationToken cancellationToken = default)
         {
-            var client = new System.Net.WebClient();
-
-            DownloadStarted?.Invoke(fileName);
-            await client.DownloadFileTaskAsync(remoteUrl, fileName);
-            DownloadFinished?.Invoke(fileName);
-
+            using (var client = new WebClient())
+            {
+                DownloadStarted?.Invoke(fileName);
+                await client.DownloadFileTaskAsync(remoteUrl, fileName);
+                DownloadFinished?.Invoke(fileName);
+            }
         }
-
-
-        public async Task<List<string>> GetImageUrlsAsync(string url)
+        
+        public async Task<IEnumerable<string>> GetImageUrlsAsync(string url, int count,
+            CancellationToken cancellationToken = default)
         {
             var imageUrls = new List<string>();
 
-            var client = new System.Net.Http.HttpClient();
-            string html = await client.GetStringAsync(url);
-
-            var regex = new System.Text.RegularExpressions.Regex("<img[^>]+src=\"(.*?)\"",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-            var matches = regex.Matches(html);
-
-            foreach (System.Text.RegularExpressions.Match match in matches)
+            using (var client = new HttpClient())
             {
-                string src = match.Groups[1].Value;
+                string html = await client.GetStringAsync(url);
 
-                if (!src.StartsWith("http") && !src.StartsWith("https"))
-                    src = new Uri(new Uri(url), src).ToString();
+                MatchCollection matches = _imageRegex.Matches(html);
 
-                if (src.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
-                    imageUrls.Add(src);
+                foreach (Match match in matches)
+                {
+                    string src = match.Groups[1].Value;
+
+                    if (src.EndsWith(".jpg"))
+                        imageUrls.Add(src);
+
+                    if (imageUrls.Count >= count)
+                        break;
+                }
             }
-
             return imageUrls;
         }
     }
 }
-    
