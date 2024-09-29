@@ -18,6 +18,7 @@ namespace EventStudy
             using (var client = new WebClient())
             {
                 DownloadStarted?.Invoke(fileName);
+                cancellationToken.ThrowIfCancellationRequested();
                 await client.DownloadFileTaskAsync(remoteUrl, fileName);
                 DownloadFinished?.Invoke(fileName);
             }
@@ -30,12 +31,14 @@ namespace EventStudy
 
             using (var client = new HttpClient())
             {
-                string html = await client.GetStringAsync(url);
+                cancellationToken.ThrowIfCancellationRequested();
+                string html = await client.GetStringAsync(url, cancellationToken);
 
                 MatchCollection matches = _imageRegex.Matches(html);
 
                 foreach (Match match in matches)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     string src = match.Groups[1].Value;
 
                     if (src.EndsWith(".jpg"))
