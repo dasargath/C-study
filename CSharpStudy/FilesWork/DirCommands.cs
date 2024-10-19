@@ -13,7 +13,7 @@ public class DirCommands
         }
         else
         {
-            Console.WriteLine($"Directory {baseRootDir} already exists. Files will be saved there.\n");
+            Console.WriteLine($"Директория {baseRootDir} уже существует. Файлы будут сохранены в ней.\n");
         }
     }
 
@@ -28,23 +28,23 @@ public class DirCommands
             {
                 if (File.Exists(filePath))
                 {
-                    throw new IOException($"File \"{Path.GetFileName(filePath)}\" already exists.\n");
+                    throw new IOException($"Файл \"{Path.GetFileName(filePath)}\" уже существует.\n");
                 }
                 using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                 {
-                    string content = $"File name: File{i}\nDate: {DateTime.Now}";
+                    string content = $"Имя файла: File{i}\nДата: {DateTime.Now}";
                     await sw.WriteLineAsync(content);
                 }
             }
 
             catch (UnauthorizedAccessException ex)
             {
-                Console.WriteLine($"You have no rights to save in file: {i}. Error: {ex.Message}");
+                Console.WriteLine($"У вас нет прав на перезапись: {i}. Ошибка: {ex.Message}");
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"File save error: {i}. Error: {ex.Message}");
+                Console.WriteLine($"Ошибка записи файла: {i}. Ошибка: {ex.Message}");
             }
         }
     }
@@ -62,18 +62,18 @@ public class DirCommands
                 using (StreamReader sr = new StreamReader(fs, Encoding.UTF8))
                 {
                     string content = sr.ReadToEnd();
-                    Console.WriteLine($"File: {file.Name}");
+                    Console.WriteLine($"Файл: {file.Name}");
                     Console.WriteLine(content);
                 }
             }
         }
         catch (UnauthorizedAccessException ex)
         {
-            Console.WriteLine($"There is no file specified. Error: {ex.Message}");
+            Console.WriteLine($"Такого файла не существует. Ошибка: {ex.Message}");
         }
         catch (IOException ex)
         {
-            Console.WriteLine($"File read error. Error: {ex.Message}");
+            Console.WriteLine($"Ошибка считывания файла. Ошибка: {ex.Message}");
         }
     }
 }

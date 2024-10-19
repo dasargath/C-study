@@ -19,14 +19,14 @@ public class OtusDictionary
         switch (value)
         {
             case null:
-                throw new ArgumentNullException(nameof(value), "Value cannot be null.");
+                throw new ArgumentNullException(nameof(value), "Значение не может быть null.");
             case "":
-                throw new ArgumentException("Value cannot be empty.", nameof(value));
+                throw new ArgumentException("Значение не может быть пустым.", nameof(value));
             default:
             {
                 if (Array.Exists(_values, val => val == value))
                 {
-                    throw new ArgumentException($"Value {value} already exists in dictionary.");
+                    throw new ArgumentException($"Значение {value} в словаре уже существует.");
                 }
                 break;
             }
@@ -43,7 +43,7 @@ public class OtusDictionary
         {
             if (_count == _size)
             {
-                throw new ArgumentException($"Key {key} already exists.");
+                throw new ArgumentException($"Такой ключ {key} уже существует.");
             }
             index = (index + 1) % _size;
         }
@@ -63,7 +63,7 @@ public class OtusDictionary
                 return _values[index];
             index = (index + 1) % _size;
         }
-        Console.WriteLine($"Error. Value with key \"{key}\" does not exist.");
+        Console.WriteLine($"Ошибка. Значение с ключом \"{key}\" не существует.");
         return null!;
     }
 

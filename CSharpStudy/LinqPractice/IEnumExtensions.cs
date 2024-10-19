@@ -1,6 +1,6 @@
 namespace LinqPractice;
 
-public class IEnumExtensions
+public static class IEnumExtensions
 {
     public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int percent)
     {
