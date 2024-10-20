@@ -9,7 +9,7 @@ public class Program
         var top30Percent = numbers.Top(30);
         Console.WriteLine("30% чисел по убыванию: " + string.Join(", ", top30Percent));
 
-        var car = new List<Cars>
+        var car1 = new List<Cars>
         {
             new Cars{Logo = "Acura", Id = 1},
             new Cars{Logo = "Ford", Id = 2},
@@ -17,12 +17,18 @@ public class Program
             new Cars{Logo = "HongQi", Id = 4}
         };
 
-        var top40PercentId = car.Top(40, c => c.Id);
-        var top40PercentName = car.Top(40, c => c.Logo);
+        var car2 = new List<Cars>();
+        
+        var top40PercentId = car1.Top(40, c => c.Id);
+        var top40PercentName = car1.Top(40, c => c.Logo);
+        var tryEmptyList = car2.Top(20, c => c.Id);
+        
         Console.WriteLine("40% машин по убыванию по Id: " 
                           + string.Join(", ", top40PercentId.Select(c => c.Id)));
         Console.WriteLine("40% машин по убыванию по марке: " 
                           + string.Join(", ", top40PercentName.Select(c => c.Logo)));
+        Console.WriteLine("20% машин по убыванию по Id: " 
+                          + string.Join(", ", tryEmptyList.Select(c => c.Id)));
     }
 
     private class Cars
